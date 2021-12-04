@@ -34,6 +34,31 @@ int main()
     instructText.setString("Click \"Start\" to begin\n Press ESC to Exit");
     instructText.setPosition(100, 100);
 
+    /*Move to class later*/
+    CircleShape electron(50);
+    electron.setFillColor(Color::White);
+
+    //main menu buttons
+    RectangleShape shapes[4];
+    Vector2f position = Vector2f(50, 10);
+
+    //text for buttons
+
+
+    for (int i = 0; i < 4; i++) {
+        shapes[i].setSize(Vector2f(1800, 230));
+        shapes[i].setFillColor(Color::Blue);
+        shapes[i].setPosition(position);
+        position += Vector2f(0, 260);
+
+        instructText.setFont(font8bit);
+        instructText.setCharacterSize(30);
+        instructText.setFillColor(Color::Blue);
+        instructText.setString("Click \"Start\" to begin\n Press ESC to Exit");
+        instructText.setPosition(100, 100);
+    }
+    /* */
+
     bool startScreen = true;
 
     while (window.isOpen()) {
@@ -49,11 +74,16 @@ int main()
         }
 
         if (Mouse::isButtonPressed(Mouse::Left)) {
-            if (Mouse::getPosition() == Vector2i(300, 300)) {
+            if (Mouse::getPosition().y <500) {
             startScreen = false;
             window.clear();
-            window.draw(testSprite);
+           // window.draw(testSprite);
+           // window.draw(electron);
+              for (int i = 0; i < 4; i++) {
+                window.draw(shapes[i]);
+            }
             window.display();
+          
         }
         }
     }

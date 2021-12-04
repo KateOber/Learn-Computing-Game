@@ -148,7 +148,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Chapter.cpp" />
     <ClCompile Include="ComputingFundamentals.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openal32.dll" />
