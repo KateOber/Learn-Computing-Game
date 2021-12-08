@@ -153,6 +153,7 @@
     <ClCompile Include="ComputingFundamentals.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="PC_Build.cpp" />
+    <ClCompile Include="PC_Build_Component.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="PC_Build.h" />
+    <ClInclude Include="PC_Build_Component.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
