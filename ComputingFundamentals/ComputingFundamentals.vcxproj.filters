@@ -33,6 +33,9 @@
     <ClCompile Include="PC_Build.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PC_Build_Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-graphics-2.dll" />
@@ -50,6 +53,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PC_Build.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PC_Build_Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
