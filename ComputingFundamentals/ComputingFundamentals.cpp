@@ -75,6 +75,10 @@ int main()
 
         if (Mouse::isButtonPressed(Mouse::Left)) {
             if (Mouse::getPosition().y <500) {
+                //to get position relative to the window
+                Vector2i mousePos = Mouse::getPosition(window);
+                //safe cast (float) unsafe
+                static_cast<float>(mousePos.y);
             startScreen = false;
             window.clear();
            // window.draw(testSprite);
