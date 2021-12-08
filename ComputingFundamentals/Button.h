@@ -7,7 +7,6 @@ class Button {
 public:
 	Button(Texture tTure, Vector2f bStart, Text txt);
 	Text text;
-	void onClicked();
 	bool isButtonClicked();
 	Sprite sprite;
 
