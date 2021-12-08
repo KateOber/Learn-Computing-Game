@@ -1,1 +1,2 @@
 C:\Users\Kate\Documents\GitHub\Learn-Computing-Game\ComputingFundamentals\Debug\ComputingFundamentals.exe
+E:\GHubRepository\Learn-Computing-Game\ComputingFundamentals\Debug\ComputingFundamentals.exe

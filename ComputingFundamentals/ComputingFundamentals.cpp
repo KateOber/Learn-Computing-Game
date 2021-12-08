@@ -1,6 +1,6 @@
 // ComputingFundamentals.cpp : This file contains the 'main' function. Program execution begins and ends there.
 #include <SFML/Graphics.hpp>
-
+#include "RectButton.h"
 using namespace sf;
 
 int main()
@@ -35,7 +35,7 @@ int main()
     //main menu buttons
     RectangleShape shapes[4];
     Vector2f position = Vector2f(50, 10);
-
+    RectButton buttons[4];
     //text for buttons
     Text gameModesText[4];
     for (int i = 0; i < 4; i++) {
@@ -50,15 +50,7 @@ int main()
     /*Move to class later*/
 
     for (int i = 0; i < 4; i++) {
-        shapes[i].setSize(Vector2f(1800, 230));
-        shapes[i].setFillColor(Color::Blue);
-        shapes[i].setPosition(position);
-
-
-        FloatRect textRect = gameModesText[i].getLocalBounds();
-        gameModesText[i].setOrigin(textRect.left + textRect.width / 2.0f,
-            textRect.top + textRect.height / 2.0f);
-        gameModesText[i].setPosition(1920/2, position.y+230/2);
+        buttons[i] = RectButton(Color::Blue, position, Vector2f(1800, 230),  gameModesText[i]);
 
         position += Vector2f(0, 260);
     }
@@ -118,24 +110,24 @@ int main()
             window.clear();
             shapes[3].setFillColor(Color::Blue);
             for (int i = 0; i < 4; i++) {
-                window.draw(shapes[i]);
-                window.draw(gameModesText[i]);
+                window.draw(buttons[i].shape);
+                window.draw(buttons[i].text);
             }
 
             window.display();
             if (Mouse::isButtonPressed(Mouse::Left)) {
 
-                if (Mouse::getPosition().y < shapes[3].getGlobalBounds().top + 230 && Mouse::getPosition().y > shapes[3].getGlobalBounds().top) {
+                if (Mouse::getPosition().y < buttons[3].shape.getGlobalBounds().top + 230 && Mouse::getPosition().y > buttons[3].shape.getGlobalBounds().top) {
                    
                     window.clear();
                     for (int i = 0; i < 3; i++) {
-                        window.draw(shapes[i]);
-                        window.draw(gameModesText[i]);
+                        window.draw(buttons[i].shape);
+                        window.draw(buttons[i].text);;
                     }
 
-                    shapes[3].setFillColor(Color::Cyan);
-                    window.draw(shapes[3]);
-                    window.draw(gameModesText[3]);
+                    buttons[3].shape.setFillColor(Color::Cyan);
+                    window.draw(buttons[3].shape);
+                    window.draw(buttons[3].text);;
                     window.display();
                     sleep(milliseconds(300));
                     mainScreen = false;
