@@ -8,8 +8,8 @@ int main()
     VideoMode vm (1920, 1080);
     RenderWindow window(vm, "CSIS4495 Project", Style::Fullscreen);
 
-    Texture firstScreenTexture, startBtnTexture, testTexture;
-    Sprite firstScreenSprite, startBtnSprite, testSprite;
+    Texture firstScreenTexture, startBtnTexture;
+    Sprite firstScreenSprite, startBtnSprite;
     Text instructText;
     Font font8bit;
 
@@ -23,11 +23,6 @@ int main()
     startBtnSprite.setTexture(startBtnTexture);
     startBtnSprite.setPosition(300, 300);
 
-  
-    testTexture.loadFromFile("Assets/Graphics/background.png");
-    testSprite.setTexture(testTexture);
-    testSprite.setPosition(0, 0);
-
     instructText.setFont(font8bit);
     instructText.setCharacterSize(30);
     instructText.setFillColor(Color::Blue);
@@ -37,7 +32,6 @@ int main()
     /*Move to class later*/
     CircleShape electron(50);
     electron.setFillColor(Color::White);
-
     //main menu buttons
     RectangleShape shapes[4];
     Vector2f position = Vector2f(50, 10);
@@ -77,6 +71,21 @@ int main()
             textRect.top + textRect.height / 2.0f);
         instructText.setPosition(300 + (textRect.left + startBtnSprite.getLocalBounds().width / 2.0f) , 200);
 
+        //Build PC class
+        Texture towerSideTexture;
+        Sprite towerSideSprite;
+        towerSideTexture.loadFromFile("Assets/Graphics/tower-side.png");
+        towerSideSprite.setTexture(towerSideTexture);
+        towerSideSprite.setScale(Vector2f(0.5, 0.5));
+        towerSideSprite.setPosition(1920/2, 1080/2);
+        RectangleShape backButton;
+        backButton.setSize(Vector2f(192, 79));
+        backButton.setFillColor(Color::Green);
+        backButton.setPosition(0, 0);
+        RectangleShape sideBar;
+        sideBar.setSize(Vector2f(300, 1080));
+        sideBar.setFillColor(Color::Color(79, 77, 71));
+        sideBar.setPosition(0, 0);
     /* */
 
     bool startScreen = true;
@@ -100,20 +109,20 @@ int main()
                     static_cast<float>(mousePos.y);
                     startScreen = false;
                     mainScreen = true;
-                    window.clear();
-                    // window.draw(testSprite);
-                    // window.draw(electron);
-                    for (int i = 0; i < 4; i++) {
-                        window.draw(shapes[i]);
-                        window.draw(gameModesText[i]);
-                    }
-
-                    window.display();
+                    
                 }
             }
         }
 
         if (!startScreen && mainScreen) {
+            window.clear();
+            shapes[3].setFillColor(Color::Blue);
+            for (int i = 0; i < 4; i++) {
+                window.draw(shapes[i]);
+                window.draw(gameModesText[i]);
+            }
+
+            window.display();
             if (Mouse::isButtonPressed(Mouse::Left)) {
 
                 if (Mouse::getPosition().y < shapes[3].getGlobalBounds().top + 230 && Mouse::getPosition().y > shapes[3].getGlobalBounds().top) {
@@ -135,9 +144,20 @@ int main()
         }
        if (!startScreen && !mainScreen) {
             window.clear();
-            instructText.setString("This is a free play mode");            
+            instructText.setString("This is a free play mode"); 
+            window.draw(sideBar);          
             window.draw(instructText);
+            window.draw(towerSideSprite); 
+            window.draw(backButton);
             window.display();
+
+            if (Mouse::isButtonPressed(Mouse::Left)) {
+
+                if (Mouse::getPosition().x < 192 && Mouse::getPosition().y < 79) {
+                    mainScreen = true;
+                }
+            }
+
         }
     }
     
@@ -145,5 +165,14 @@ int main()
     
 
     return 0;
+}
+void StartScreen() {
+
+}
+void MainScreen() {
+
+}
+void FreePlayMode() {
+
 }
 
