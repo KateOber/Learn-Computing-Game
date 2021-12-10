@@ -1,5 +1,6 @@
 // ComputingFundamentals.cpp : This file contains the 'main' function. Program execution begins and ends there.
 #include <SFML/Graphics.hpp>
+#include "PC_Build_Component.h"
 
 using namespace sf;
 
@@ -71,49 +72,100 @@ int main()
             textRect.top + textRect.height / 2.0f);
         instructText.setPosition(300 + (textRect.left + startBtnSprite.getLocalBounds().width / 2.0f) , 200);
 
-        //Build PC class
-        Texture towerSideTexture;
-        Sprite towerSideSprite;
-        towerSideTexture.loadFromFile("Assets/Graphics/tower-side.png");
-        towerSideSprite.setTexture(towerSideTexture);
-        towerSideSprite.setScale(Vector2f(0.5, 0.5));
-        towerSideSprite.setPosition(1920/2, 1080/2);
+        /*
+        * 
+        Build PC class
+        *
+        */
+       
+        Texture towerSideTexture, towerProfileTexture, arrowTexture;
+        Sprite arrowSprite;
+        towerSideTexture.loadFromFile("Assets/Graphics/tower-profile.png");
+        towerProfileTexture.loadFromFile("Assets/Graphics/tower-side.png");
+        arrowTexture.loadFromFile("Assets/Graphics/arrow.png");
+        
+        //using the PC_COMPONENT object
+        PC_Build_Component basicTower(towerProfileTexture, towerSideTexture, "Basic Tower");
+        basicTower.setScale(Vector2f(0.6, 0.6));
+        basicTower.setPosition(Vector2f(800, 300));
+        towerSideTexture.loadFromFile("Assets/Graphics/tower-corsair-profile.png");
+        towerProfileTexture.loadFromFile("Assets/Graphics/tower-corsair-side.png");
+        PC_Build_Component corsairTower(towerProfileTexture, towerSideTexture, "Corsair iCUE 220T RGBM Mid-Tower", "Airflow ATX Computer Case - White", 140, 7);
+        corsairTower.setScale(Vector2f(0.3, 0.3));
+        corsairTower.setPosition(Vector2f(10, 500));
+
+        //button
         RectangleShape backButton;
         backButton.setSize(Vector2f(192, 79));
-        backButton.setFillColor(Color::Green);
+        backButton.setFillColor(Color::Color(46, 45, 42));
         backButton.setPosition(0, 0);
+        Text backButtonText;
+        backButtonText.setFont(font8bit);
+        backButtonText.setCharacterSize(30);
+        backButtonText.setFillColor(Color::White);
+        backButtonText.setString("Back");
+        textRect = backButtonText.getLocalBounds();
+        backButtonText.setOrigin(textRect.left + textRect.width / 2.0f,
+            textRect.top + textRect.height / 2.0f);
+        backButtonText.setPosition(backButton.getLocalBounds().width / 2.0f, backButton.getLocalBounds().height/2.0f);
+        //side bar
         RectangleShape sideBar;
         sideBar.setSize(Vector2f(300, 1080));
         sideBar.setFillColor(Color::Color(79, 77, 71));
         sideBar.setPosition(0, 0);
+        //Arrow
+        arrowSprite.setTexture(arrowTexture);
+        arrowSprite.setScale(0.9, 0.9);
+        arrowSprite.setPosition(1400, 800);
+
+        bool side = false;
+
     /* */
 
     bool startScreen = true;
     bool mainScreen = false;
 
+    bool paused = false;
+    bool acceptingInput = true;
+
     while (window.isOpen()) {
+
+        Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == Event::MouseButtonReleased && !paused)
+            {
+                // Listen for button presses
+                acceptingInput = true;
+            }
+        }
+
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
+        //START SCREEN
         if (startScreen && !mainScreen) {
             window.clear();
             window.draw(firstScreenSprite);
             window.draw(startBtnSprite);
             window.draw(instructText);
             window.display();
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (Mouse::getPosition().y < 500) {
-                    //to get position relative to the window
-                    Vector2i mousePos = Mouse::getPosition(window);
-                    //safe cast (float) unsafe
-                    static_cast<float>(mousePos.y);
-                    startScreen = false;
-                    mainScreen = true;
-                    
+            if (acceptingInput) {
+                if (Mouse::isButtonPressed(Mouse::Left)) {
+                    if (Mouse::getPosition().y < 500) {
+                        acceptingInput = false;
+                        //to get position relative to the window
+                        Vector2i mousePos = Mouse::getPosition(window);
+                        //safe cast (float) unsafe
+                        static_cast<float>(mousePos.y);
+                        startScreen = false;
+                        mainScreen = true;
+
+                    }
                 }
             }
         }
-
+        //MAIN SCREEN
         if (!startScreen && mainScreen) {
             window.clear();
             shapes[3].setFillColor(Color::Blue);
@@ -123,38 +175,61 @@ int main()
             }
 
             window.display();
-            if (Mouse::isButtonPressed(Mouse::Left)) {
+            if (acceptingInput) {
+                if (Mouse::isButtonPressed(Mouse::Left)) {
 
-                if (Mouse::getPosition().y < shapes[3].getGlobalBounds().top + 230 && Mouse::getPosition().y > shapes[3].getGlobalBounds().top) {
-                   
-                    window.clear();
-                    for (int i = 0; i < 3; i++) {
-                        window.draw(shapes[i]);
-                        window.draw(gameModesText[i]);
+                    if (Mouse::getPosition().y < shapes[3].getGlobalBounds().top + 230 && Mouse::getPosition().y > shapes[3].getGlobalBounds().top) {
+                        acceptingInput = false;
+                        window.clear();
+                        for (int i = 0; i < 3; i++) {
+                            window.draw(shapes[i]);
+                            window.draw(gameModesText[i]);
+                        }
+
+                        shapes[3].setFillColor(Color::Cyan);
+                        window.draw(shapes[3]);
+                        window.draw(gameModesText[3]);
+                        window.display();
+                        sleep(milliseconds(300));
+                        mainScreen = false;
                     }
-
-                    shapes[3].setFillColor(Color::Cyan);
-                    window.draw(shapes[3]);
-                    window.draw(gameModesText[3]);
-                    window.display();
-                    sleep(milliseconds(300));
-                    mainScreen = false;
                 }
             }
         }
+       //GAME MODE
        if (!startScreen && !mainScreen) {
             window.clear();
             instructText.setString("This is a free play mode"); 
+            instructText.setPosition(1920 / 2, 100);
             window.draw(sideBar);          
             window.draw(instructText);
-            window.draw(towerSideSprite); 
+            if (side) {
+            window.draw(basicTower.getSideSprite());
+            }
+            else {
+            window.draw(basicTower.getFrontSprite()); 
+            }
             window.draw(backButton);
+            window.draw(backButtonText);
+            window.draw(arrowSprite);
+            window.draw(corsairTower.getFrontSprite());
             window.display();
 
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-
-                if (Mouse::getPosition().x < 192 && Mouse::getPosition().y < 79) {
-                    mainScreen = true;
+            if (acceptingInput) {
+                if (Mouse::isButtonPressed(Mouse::Left)) {
+                    //back button
+                    if (Mouse::getPosition().x < 192 && Mouse::getPosition().y < 79) {
+                        mainScreen = true;
+                        acceptingInput = false;
+                    }
+                    //arrow
+                    textRect = arrowSprite.getLocalBounds();
+                    if ((Mouse::getPosition().x < (arrowSprite.getPosition().x + textRect.width) && Mouse::getPosition().y < (arrowSprite.getPosition().x + textRect.height))){
+                        if (!side)
+                            side = true;
+                        else
+                            side = false;
+                    }
                 }
             }
 

@@ -1,2 +1,13 @@
 ﻿  ComputingFundamentals.cpp
+C:\Users\Kate\Documents\GitHub\Learn-Computing-Game\ComputingFundamentals\ComputingFundamentals.cpp(89,46): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Kate\Documents\GitHub\Learn-Computing-Game\ComputingFundamentals\ComputingFundamentals.cpp(94,48): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Kate\Documents\GitHub\Learn-Computing-Game\ComputingFundamentals\ComputingFundamentals.cpp(118,38): warning C4305: 'argument': truncation from 'double' to 'float'
   ComputingFundamentals.vcxproj -> C:\Users\Kate\Documents\GitHub\Learn-Computing-Game\ComputingFundamentals\Debug\ComputingFundamentals.exe
